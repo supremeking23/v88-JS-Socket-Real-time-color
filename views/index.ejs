@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!--Import Google Icon Font-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+		<!-- Compiled and minified CSS -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+
+		<style>
+			.mt-2 {
+				margin-top: 2rem;
+			}
+
+			.m-auto {
+				margin: 10rem 1rem;
+			}
+
+			.p-2 {
+				padding: 2rem !important;
+			}
+
+			.buttons {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.buttons button {
+				color: #fff;
+			}
+		</style>
+
+		<!-- Compiled and minified JavaScript -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+		<script
+			src="https://cdn.socket.io/3.1.3/socket.io.min.js"
+			integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
+			crossorigin="anonymous"
+		></script>
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				const SOCKET = io();
+
+				SOCKET.emit("new_connection", { msg: `load init color ${$("body").css("background-color")}` });
+
+				$(".green").click(function () {
+					SOCKET.emit("green", { msg: "green button has been triggered" });
+				});
+
+				$(".light-blue").click(function () {
+					SOCKET.emit("blue", { msg: "blue button has been triggered" });
+				});
+
+				$(".pink").click(function () {
+					SOCKET.emit("pink", { msg: "pink button has been triggered" });
+				});
+
+				SOCKET.on("color", function (data) {
+					console.log(data);
+					$("body").css("background", `${data.data}`);
+				});
+			});
+		</script>
+
+		<title>Real time colors</title>
+	</head>
+	<body>
+		<nav class="light-blue darken-4">
+			<div class="container">
+				<div class="nav-wrapper">
+					<a href="#" class="brand-logo">Real Time Colors</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container">
+			<div class="row m-auto">
+				<div class="col s12 buttons">
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat green darken-4 btn-large">Green</button>
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat light-blue darken-4 btn-large">Blue</button>
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat pink darken-4 btn-large">Pink</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
