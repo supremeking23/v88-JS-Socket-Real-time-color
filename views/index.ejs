@@ -45,21 +45,30 @@
 
 		<script type="text/javascript">
 			$(document).ready(function () {
+				let color_buttons = document.querySelectorAll("button");
+
 				const SOCKET = io();
 
-				SOCKET.emit("new_connection", { msg: `load init color ${$("body").css("background-color")}` });
+				SOCKET.emit("new_connection", { msg: `new connection` });
 
-				$(".green").click(function () {
-					SOCKET.emit("green", { msg: "green button has been triggered" });
-				});
+				for (let i = 0; i < color_buttons.length; i++) {
+					color_buttons[i].addEventListener("click", function (e) {
+						console.log(this.classList[this.classList.length - 1]);
+						SOCKET.emit("set_color", { msg: `set color`, color: this.classList[this.classList.length - 1] });
+					});
+				}
 
-				$(".light-blue").click(function () {
-					SOCKET.emit("blue", { msg: "blue button has been triggered" });
-				});
+				// $(".green").click(function () {
+				// 	SOCKET.emit("green", { msg: "green button has been triggered" });
+				// });
 
-				$(".pink").click(function () {
-					SOCKET.emit("pink", { msg: "pink button has been triggered" });
-				});
+				// $(".light-blue").click(function () {
+				// 	SOCKET.emit("blue", { msg: "blue button has been triggered" });
+				// });
+
+				// $(".pink").click(function () {
+				// 	SOCKET.emit("pink", { msg: "pink button has been triggered" });
+				// });
 
 				SOCKET.on("color", function (data) {
 					console.log(data);
@@ -82,9 +91,9 @@
 		<div class="container">
 			<div class="row m-auto">
 				<div class="col s12 buttons">
-					<button type="button" class="modal-close waves-effect waves-blue btn-flat green darken-4 btn-large">Green</button>
-					<button type="button" class="modal-close waves-effect waves-blue btn-flat light-blue darken-4 btn-large">Blue</button>
-					<button type="button" class="modal-close waves-effect waves-blue btn-flat pink darken-4 btn-large">Pink</button>
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat darken-4 btn-large green">Green</button>
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat darken-4 btn-large light-blue">Blue</button>
+					<button type="button" class="modal-close waves-effect waves-blue btn-flat darken-4 btn-large pink">Pink</button>
 				</div>
 			</div>
 		</div>

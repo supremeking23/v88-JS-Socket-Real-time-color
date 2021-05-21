@@ -18,23 +18,38 @@ APP.set("view engine", "ejs");
 
 IO.on("connection", function (socket) {
 	console.log(`a user is connected`);
-	socket.on("green", function (data) {
-		console.log(data.msg);
-		color = "#2e7d32 ";
-		socket.emit("color", { data: color });
-		socket.broadcast.emit("color", { data: color });
-	});
 
-	socket.on("blue", function (data) {
-		console.log(data.msg);
-		color = "#0277bd ";
-		socket.emit("color", { data: color });
-		socket.broadcast.emit("color", { data: color });
-	});
+	// socket.on("green", function (data) {
+	// 	console.log(data.msg);
+	// 	color = "#2e7d32 ";
+	// 	socket.emit("color", { data: color });
+	// 	socket.broadcast.emit("color", { data: color });
+	// });
 
-	socket.on("pink", function (data) {
-		console.log(data.msg);
-		color = "#ad1457 ";
+	// socket.on("blue", function (data) {
+	// 	console.log(data.msg);
+	// 	color = "#0277bd ";
+	// 	socket.emit("color", { data: color });
+	// 	socket.broadcast.emit("color", { data: color });
+	// });
+
+	// socket.on("pink", function (data) {
+	// 	console.log(data.msg);
+	// 	color = "#ad1457 ";
+	// 	socket.emit("color", { data: color });
+	// 	socket.broadcast.emit("color", { data: color });
+	// });
+
+	socket.on("set_color", function (data) {
+		console.log(data);
+		if (data.color == "green") {
+			color = "#2e7d32";
+		} else if (data.color == "light-blue") {
+			color = "#0277bd";
+		} else if (data.color == "pink") {
+			color = "#ad1457";
+		}
+
 		socket.emit("color", { data: color });
 		socket.broadcast.emit("color", { data: color });
 	});
@@ -43,10 +58,6 @@ IO.on("connection", function (socket) {
 		console.log(data.msg);
 		socket.emit("color", { data: color });
 		// socket.broadcast.emit("color", { data: color });
-	});
-
-	socket.on("connection", function () {
-		console.log(`a user is connected coneccted`);
 	});
 
 	socket.on("disconnect", function () {
